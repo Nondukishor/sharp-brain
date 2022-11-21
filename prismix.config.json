@@ -1,0 +1,13 @@
+{
+    "mixers": [
+      {
+          "input": [
+              "./base.prisma",
+              "../lib/auth/auth.prisma", 
+              "../lib/posts/posts.prisma"
+          ],
+          "output": "prisma/schema.prisma"
+      }
+    ],
+    "runMigrationsOnStart": true
+  }
