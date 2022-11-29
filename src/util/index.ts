@@ -1,6 +1,6 @@
-import dateFormatter from './date-util';
+import DateFormatter from './date-util';
 const util = {
-  dateFormatter,
+  DateFormatter,
 };
 
 export default util;
