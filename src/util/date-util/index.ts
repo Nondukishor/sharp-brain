@@ -1,3 +1,4 @@
+interface ICfg {}
 export default class DateFormatter extends Date {
   public fullDate: Date;
   public date: string | number | Date;
@@ -27,7 +28,7 @@ export default class DateFormatter extends Date {
   format(cfg: string): string {
     if (!this.isValid()) throw new Error('Date cannot be null');
     else {
-      return this.fullDate.toLocaleString();
+      return this.fullDate.toLocaleString({});
     }
   }
 }
