@@ -2,12 +2,31 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  id: Int!
-  name: String!
-  type: String
+input CreateUserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  signIn(userCredentialInput: UserCredentialInput!): User!
 }
 
 type Query {
   users: [User!]!
+}
+
+type User {
+  email: String!
+  firstName: String!
+  id: String!
+  lastName: String!
+  password: String!
+}
+
+input UserCredentialInput {
+  email: String!
+  password: String!
 }
