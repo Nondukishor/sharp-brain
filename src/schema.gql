@@ -9,9 +9,14 @@ input CreateUserInput {
   password: String!
 }
 
+type LoginResponse {
+  accessToken: String!
+  refreshToken: String!
+}
+
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
-  signIn(userCredentialInput: UserCredentialInput!): User!
+  signIn(userCredentialInput: UserCredentialInput!): LoginResponse!
 }
 
 type Query {
