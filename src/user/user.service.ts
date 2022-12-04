@@ -7,14 +7,19 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateUserInput, UserCredentialInput } from './dto/User';
+import {
+  ChangePasswordInput,
+  CreateUserInput,
+  ForgotPasswordInput,
+  UserCredentialInput,
+} from './dto/User';
 import { User } from './user.entity';
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { JwtService } from '@nestjs/jwt';
 import { LoginResponse } from './dto/LoginResponse';
 import * as bcrypt from 'bcrypt';
-import { isMatch } from 'src/helpers/auth-helper';
+import { isMatch, tokenGenerator } from 'src/helpers/auth-helper';
 @Injectable()
 export class UserService extends PassportStrategy(Strategy) {
   constructor(
@@ -92,5 +97,34 @@ export class UserService extends PassportStrategy(Strategy) {
         return token;
       }
     }
+  }
+
+  /**
+   * @param forgotPasswordInput
+   * @returns
+   */
+
+  async forgotPassword(forgotPasswordInput: ForgotPasswordInput) {
+    const found = await this.findByEmail(forgotPasswordInput.email);
+    if (!found) throw new UnauthorizedException('User not found');
+    return tokenGenerator(100);
+  }
+
+  /**
+   * @param changePasswordInput
+   * @returns
+   */
+
+  async changePassword(changePasswordInput: ChangePasswordInput) {
+    const user = await this.userRepositoy.findOneBy({
+      email: changePasswordInput.email,
+    });
+    if (!user) throw new UnauthorizedException('User not found');
+    if (changePasswordInput.password !== changePasswordInput.confirmPassword)
+      throw new BadRequestException(
+        'Password and confirm password should be same',
+      );
+    user.password = changePasswordInput.password;
+    return await this.userRepositoy.save(user);
   }
 }

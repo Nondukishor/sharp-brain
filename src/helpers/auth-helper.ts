@@ -20,3 +20,7 @@ export const isMatch = async (
 ): Promise<boolean> => {
   return await bcrypt.compare(plainPass, hashPass);
 };
+
+const rand = () => Math.random().toString(36).slice(2);
+export const tokenGenerator = (length: number) =>
+  (rand() + rand() + rand() + rand()).slice(0, length);

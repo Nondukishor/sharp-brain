@@ -1,7 +1,12 @@
 import { Resolver, Query, Mutation, Args, ObjectType } from '@nestjs/graphql';
 import { hash } from 'src/helpers/auth-helper';
 import { LoginResponse } from './dto/LoginResponse';
-import { CreateUserInput, UserCredentialInput } from './dto/User';
+import {
+  ChangePasswordInput,
+  CreateUserInput,
+  ForgotPasswordInput,
+  UserCredentialInput,
+} from './dto/User';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -29,5 +34,17 @@ export class UserResolver {
     } catch (error) {
       return error;
     }
+  }
+
+  @Mutation(() => String)
+  async forgotPassword(forgotPassword: ForgotPasswordInput) {
+    return await this.userService.forgotPassword(forgotPassword);
+  }
+
+  @Mutation(() => User)
+  async changePassword(
+    changePasswordInput: ChangePasswordInput,
+  ): Promise<User> {
+    return await this.userService.changePassword(changePasswordInput);
   }
 }
