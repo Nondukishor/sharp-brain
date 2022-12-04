@@ -1,4 +1,5 @@
 import { Resolver, Query, Mutation, Args, ObjectType } from '@nestjs/graphql';
+import { hash } from 'src/helpers/auth-helper';
 import { LoginResponse } from './dto/LoginResponse';
 import { CreateUserInput, UserCredentialInput } from './dto/User';
 import { User } from './user.entity';
@@ -13,19 +14,20 @@ export class UserResolver {
     return this.userService.findAll();
   }
 
-  @Mutation(() => User)
-  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+  @Mutation(() => User, { name: 'signUp' })
+  async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+    createUserInput.password = await hash(createUserInput.password);
     return this.userService.signUp(createUserInput);
   }
 
-  @Mutation(() => LoginResponse)
-  signIn(
+  @Mutation(() => LoginResponse, { name: 'signIn' })
+  async signIn(
     @Args('userCredentialInput') userCredentialInput: UserCredentialInput,
   ): Promise<LoginResponse> {
     try {
-      return this.userService.signIn(userCredentialInput);
+      return await this.userService.signIn({ ...userCredentialInput });
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
 }
