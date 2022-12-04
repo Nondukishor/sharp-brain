@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, HttpException } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
