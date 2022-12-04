@@ -15,8 +15,8 @@ type LoginResponse {
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
   signIn(userCredentialInput: UserCredentialInput!): LoginResponse!
+  signUp(createUserInput: CreateUserInput!): User!
 }
 
 type Query {
