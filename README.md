@@ -26,14 +26,14 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
-
+#==================
 #docker commands
-
+#==================
 #build
-$docker:build
+$ docker:build
 
 #run
-$docker:run
+$ docker:run
 
 ```
 
