@@ -5,8 +5,6 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-
-
 ## Description
 
 [Nest](https://github.com/nestjs/nest) NestJs GraphQl Starter repository.
@@ -28,6 +26,15 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+#docker commands
+
+#build
+$docker:build
+
+#run
+$docker:run
+
 ```
 
 ## Test
@@ -46,4 +53,3 @@ $ npm run test:cov
 ## Stay in touch
 
 - Author - [Nipu Chakraborty](pro.nipu@gmail.com)
-
