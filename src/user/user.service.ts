@@ -127,4 +127,8 @@ export class UserService extends PassportStrategy(Strategy) {
     user.password = changePasswordInput.password;
     return await this.userRepositoy.save(user);
   }
+  decodeAuthToken(authToken) {
+    const payload = this.jwtService.decode(authToken) as any;
+    return payload;
+  }
 }
