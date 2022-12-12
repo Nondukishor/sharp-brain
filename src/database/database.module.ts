@@ -1,6 +1,6 @@
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { TypeOrmModule } from '@nestjs/typeorm';
 
- export default TypeOrmModule.forRoot({
+export default TypeOrmModule.forRoot({
   type: 'mysql',
   host: 'localhost',
   username: 'root',
@@ -8,5 +8,5 @@ import { TypeOrmModule } from "@nestjs/typeorm";
   database: 'sharp-brain',
   entities: ['dist/**/*.entity{.ts,.js}'],
   synchronize: true,
-  autoLoadEntities: true
-})
+  autoLoadEntities: true,
+});
