@@ -10,3 +10,10 @@ const doFLC = (value?: string) => {
   }
   throw new ReferenceError('Please provide a valid string');
 };
+
+const addSymbol = (value: string, symbol: string) => {
+  if (value) {
+    return value.replaceAll('', symbol);
+  }
+  throw new ReferenceError('Please provide a valid string');
+};
