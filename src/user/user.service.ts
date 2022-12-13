@@ -1,8 +1,6 @@
 import {
   Injectable,
   UnauthorizedException,
-  HttpException,
-  NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,12 +16,11 @@ import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { JwtService } from '@nestjs/jwt';
 import { LoginResponse } from './dto/LoginResponse';
-import * as bcrypt from 'bcrypt';
 import { isMatch, tokenGenerator } from 'src/helpers/auth-helper';
 @Injectable()
 export class UserService extends PassportStrategy(Strategy) {
   constructor(
-    @InjectRepository(User) private userRepositoy: Repository<User>,
+    @InjectRepository(User) private userRepository: Repository<User>,
     private jwtService: JwtService,
   ) {
     super();
@@ -33,7 +30,7 @@ export class UserService extends PassportStrategy(Strategy) {
    * @returns Promise<User[]>
    */
   async findAll(): Promise<User[]> {
-    return this.userRepositoy.find();
+    return this.userRepository.find();
   }
 
   /**
@@ -42,7 +39,7 @@ export class UserService extends PassportStrategy(Strategy) {
    */
 
   async findByEmail(email: string) {
-    const found = await this.userRepositoy.findOneBy({
+    const found = await this.userRepository.findOneBy({
       email: email,
     });
     if (found) return true;
@@ -53,14 +50,14 @@ export class UserService extends PassportStrategy(Strategy) {
    * @param createUserInput
    * @returns Promise<User>
    */
-  async signUp(createUserInput: CreateUserInput): Promise<User | any> {
+  async signUp(createUserInput: CreateUserInput): Promise<User> {
     try {
       const isExist = await this.findByEmail(createUserInput.email);
       if (isExist) {
         throw new BadRequestException('User already exist');
       } else {
-        const user = this.userRepositoy.create(createUserInput);
-        return await this.userRepositoy.save(user);
+        const user = this.userRepository.create(createUserInput);
+        return await this.userRepository.save(user);
       }
     } catch (error) {
       return error;
@@ -73,7 +70,7 @@ export class UserService extends PassportStrategy(Strategy) {
 
   async signIn(userCredentials: UserCredentialInput) {
     const { password } = userCredentials;
-    const user = await this.userRepositoy.findOneBy({
+    const user = await this.userRepository.findOneBy({
       email: userCredentials.email,
     });
     if (!user) {
@@ -116,7 +113,7 @@ export class UserService extends PassportStrategy(Strategy) {
    */
 
   async changePassword(changePasswordInput: ChangePasswordInput) {
-    const user = await this.userRepositoy.findOneBy({
+    const user = await this.userRepository.findOneBy({
       email: changePasswordInput.email,
     });
     if (!user) throw new UnauthorizedException('User not found');
@@ -125,10 +122,10 @@ export class UserService extends PassportStrategy(Strategy) {
         'Password and confirm password should be same',
       );
     user.password = changePasswordInput.password;
-    return await this.userRepositoy.save(user);
+    return await this.userRepository.save(user);
   }
   decodeAuthToken(authToken) {
-    const payload = this.jwtService.decode(authToken) as any;
+    const payload = this.jwtService.decode(authToken);
     return payload;
   }
 }

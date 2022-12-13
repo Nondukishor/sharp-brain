@@ -1,10 +1,11 @@
-import { Module, HttpException } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { UserModule } from './user/user.module';
 import DatabaseModule from './database/database.module';
+import configuration from './config/configuration';
 
 /**
  * @class AppModule
@@ -13,6 +14,7 @@ import DatabaseModule from './database/database.module';
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.env.development.local', '.env.development'],
+      load: [configuration],
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

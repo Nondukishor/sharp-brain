@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, ObjectType } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { hash } from 'src/helpers/auth-helper';
 import { LoginResponse } from './dto/LoginResponse';
 import {
@@ -15,7 +15,6 @@ export class UserResolver {
   constructor(private userService: UserService) {}
   @Query(() => [User])
   users(): Promise<User[]> {
-    const user = new User();
     return this.userService.findAll();
   }
 

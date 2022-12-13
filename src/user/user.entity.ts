@@ -1,7 +1,6 @@
 import 'moment-timezone';
 import 'class-transformer';
 import * as moment from 'moment';
-import * as bcrypt from 'bcrypt';
 import { Field, ObjectType } from '@nestjs/graphql';
 import {
   BeforeInsert,
